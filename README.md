@@ -1,7 +1,7 @@
- ```go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
- ```protoc-gen-go-grpc 
+ protoc-gen-go-grpc 
 
- ```make proto
+ make proto
 
- ```go get google.golang.org/grpc
+ go get google.golang.org/grpc
