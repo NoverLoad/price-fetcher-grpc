@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/Noverlaod/price-fetcher/proto";
+
+service priceFetcher {
+    rpc Fetchprice(PriceRequest) returns(PriceResponse);
+}
+
+message PriceRequest{
+    string ticker = 1;
+}
+
+message PriceResponse{
+    string ticker = 1;
+    float price = 2;
+}
+
+
