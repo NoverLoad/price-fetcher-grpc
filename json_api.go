@@ -13,10 +13,10 @@ type APIFunc func(context.Context, http.ResponseWriter, *http.Request) error
 
 type JSONAPIServer struct {
 	listenAddr string
-	svc        PriceFetcher
+	svc        PriceService
 }
 
-func NewJSONAPIServer(listenAddr string, svc PriceFetcher) *JSONAPIServer {
+func NewJSONAPIServer(listenAddr string, svc PriceService) *JSONAPIServer {
 	return &JSONAPIServer{
 		listenAddr: listenAddr,
 		svc:        svc,

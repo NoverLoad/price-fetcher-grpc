@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
+	"math/rand"
 	"net"
 
 	"github.com/Noverload/price-fetcher/proto"
 	"google.golang.org/grpc"
 )
 
-func makeGRPCServerAndRun(listenAddr string, svc PriceFetcher) error {
+func makeGRPCServerAndRun(listenAddr string, svc PriceService) error {
 	grpcPriceFetcher := NewGRPCPriceFetcherServer(svc)
 	ln, err := net.Listen("tcp", listenAddr)
 	if err != nil {
@@ -21,11 +22,11 @@ func makeGRPCServerAndRun(listenAddr string, svc PriceFetcher) error {
 }
 
 type GRPCPriceFetcherServer struct {
-	svc PriceFetcher
+	svc PriceService
 	proto.UnimplementedPriceFetcherServer
 }
 
-func NewGRPCPriceFetcherServer(svc PriceFetcher) *GRPCPriceFetcherServer {
+func NewGRPCPriceFetcherServer(svc PriceService) *GRPCPriceFetcherServer {
 	return &GRPCPriceFetcherServer{
 
 		svc: svc,
@@ -33,7 +34,9 @@ func NewGRPCPriceFetcherServer(svc PriceFetcher) *GRPCPriceFetcherServer {
 }
 
 func (s *GRPCPriceFetcherServer) FetchPrice(ctx context.Context, req *proto.PriceRequest) (*proto.PriceResponse, error) {
-	price, err := s.svc.FetchPrice(ctx, req.Ticker)
+	reqid := rand.Intn(100000)
+	ctx = context.WithValue(ctx,"requestID",reqid)
+    price, err := s.svc.FetchPrice(ctx, req.Ticker)
 	if err != nil {
 		return nil, err
 	}

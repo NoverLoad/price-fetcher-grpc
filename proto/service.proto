@@ -3,7 +3,7 @@ syntax = "proto3";
 option go_package = "github.com/Noverlaod/price-fetcher/proto";
 
 service priceFetcher {
-    rpc Fetchprice(PriceRequest) returns(PriceResponse);
+    rpc FetchPrice(PriceRequest) returns(PriceResponse);
 }
 
 message PriceRequest{

@@ -6,8 +6,22 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Noverload/price-fetcher/proto"
 	"github.com/Noverload/price-fetcher/types"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
+
+func NewGRPCClient(remoteAddr string) (proto.PriceFetcherClient, error) {
+	creds := insecure.NewCredentials()
+	conn, err := grpc.Dial(remoteAddr, grpc.WithTransportCredentials(creds))
+	if err != nil {
+		return nil, err
+	}
+
+	c := proto.NewPriceFetcherClient(conn)
+	return c, nil
+}
 
 type Client struct {
 	endpoint string
